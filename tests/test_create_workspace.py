@@ -22,7 +22,7 @@ class WorkspaceTests(unittest.TestCase):
             self.assertEqual(result.returncode, 0, result.stderr)
             project = parent / 'Client WebApp'
             workspace = json.loads((project / 'Client WebApp.code-workspace').read_text())
-            self.assertEqual(workspace['folders'], [{'path': 'AI-Workspace'}])
+            self.assertEqual(workspace['folders'], [{'path': '.'}])
             for directory in generator.EMPTY_DIRS:
                 self.assertTrue((project / directory).is_dir())
                 self.assertEqual(list((project / directory).iterdir()), [])

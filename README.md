@@ -80,7 +80,11 @@ The generated `EvilCorp-WebApp-2019` project in Finder:
 
 ![Generated project in Finder with AI workspace records, evidence directories, raw directories, and the VS Code workspace file](docs/images/generated-project.png)
 
-Open the generated `.code-workspace` file using VS Code's **File → Open Workspace from File**. It opens only `AI-Workspace/` using a relative path, so the whole project can be moved without editing the workspace file. This is an organisational boundary, not a technical sandbox; agent tools may still be able to access other locations. Whether an AI tool automatically reads `AGENTS.md` depends on that tool.
+Open the generated `.code-workspace` file using VS Code's **File → Open Workspace from File**. It opens the entire project using the relative path `.` so the tester can browse all files, including `Images-Raw/` and `Output-Raw/`. The whole project can be moved without editing the workspace file.
+
+Direct the AI to work inside `AI-Workspace/` and follow `AI-Workspace/AGENTS.md`, which excludes raw evidence from its permitted inputs. This is an instruction-based boundary, not a technical sandbox. Opening the whole project in VS Code does not restrict agent access, and whether an AI tool automatically reads the nested `AGENTS.md` depends on that tool.
+
+For projects generated with the earlier template, change the folder path in their `.code-workspace` file from `AI-Workspace` to `.`. Updating this repository does not modify existing generated projects.
 
 1. Fill in `00 Scope.md` with tester-approved targets, exclusions, rules of engagement, and constraints.
 2. Put sanitised JSONL exports in `SecretScrub/` and approved redacted screenshots in `Images-Redacted/`.
