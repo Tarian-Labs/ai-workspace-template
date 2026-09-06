@@ -1,4 +1,4 @@
-# AI Workspace Template
+# WebAppPenTest-AIWorkflow
 
 Create a consistent workspace for AI-assisted web application penetration testing on Windows, macOS, and Linux. The tester controls scope and testing; the AI workspace holds approved sanitised evidence and Markdown working records.
 
@@ -11,8 +11,8 @@ Create a consistent workspace for AI-assisted web application penetration testin
 ## Get the template
 
 ```sh
-git clone https://github.com/Tarian-Labs/ai-workspace-template.git
-cd ai-workspace-template
+git clone https://github.com/Tarian-Labs/WebAppPenTest-AIWorkflow.git
+cd WebAppPenTest-AIWorkflow
 ```
 
 ## Create a project
