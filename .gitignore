@@ -1,0 +1,8 @@
+.DS_Store
+__pycache__/
+*.py[cod]
+.obsidian/
+.venv/
+*.burp
+Images-Raw/
+Output-Raw/
