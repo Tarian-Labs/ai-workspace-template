@@ -35,6 +35,10 @@ Linux:
 python3 create_workspace.py --ProjectName "Client-WebApp" --ParentDir "/home/user/tests"
 ```
 
+Example run creating `EvilCorp-WebApp-2019` on macOS:
+
+![Terminal showing successful project creation and the generated VS Code workspace path](docs/images/create-project-terminal.png)
+
 Both arguments are required and case-sensitive:
 
 | Argument | Purpose |
@@ -71,6 +75,10 @@ Client-WebApp/
 ├── Output-Raw/
 └── Client-WebApp.code-workspace
 ```
+
+The generated `EvilCorp-WebApp-2019` project in Finder:
+
+![Generated project in Finder with AI workspace records, evidence directories, raw directories, and the VS Code workspace file](docs/images/generated-project.png)
 
 Open the generated `.code-workspace` file using VS Code's **File → Open Workspace from File**. It opens only `AI-Workspace/` using a relative path, so the whole project can be moved without editing the workspace file. This is an organisational boundary, not a technical sandbox; agent tools may still be able to access other locations. Whether an AI tool automatically reads `AGENTS.md` depends on that tool.
 
