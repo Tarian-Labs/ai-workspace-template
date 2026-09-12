@@ -48,7 +48,7 @@ Both arguments are required and case-sensitive:
 
 Quote paths containing spaces. Use paths appropriate to your operating system. An existing writable parent, a drive root such as `C:\` on Windows, relative paths, and `~` for your home directory are supported. Relative parent paths are resolved from your current working directory. Your account needs permission to create the destination.
 
-The script finds `template/` beside itself, so you can also run it using its full path from any directory. Keep the script and template together. It refuses to overwrite an existing destination and rejects names that are invalid on Windows, macOS, or Linux.
+The script creates all six Markdown records and the VS Code workspace file automatically. You can run it using its full path from any directory, or copy just `create_workspace.py` to another machine. It includes built-in defaults; an optional `template/` folder beside the script overrides those defaults, with any missing required files filled in automatically. It refuses to overwrite an existing destination and rejects names that are invalid on Windows, macOS, or Linux.
 
 For help:
 
@@ -94,7 +94,7 @@ The generator does not install SecretScrub, sanitise evidence, run tests against
 
 ## Customise the template
 
-Edit the files in `template/` before generating new projects. Existing generated projects are unaffected. Empty evidence directories are created by the script because Git does not track empty directories. The workspace template is renamed automatically to match the project name.
+Edit the files in `template/` before generating new projects. Keep that folder beside the script to use your customisations; running the script alone uses its built-in defaults. Existing generated projects are unaffected. Empty evidence directories are created by the script because Git does not track empty directories. The workspace template is renamed automatically to match the project name.
 
 ## Verify the generator
 

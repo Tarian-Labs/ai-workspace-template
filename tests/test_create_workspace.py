@@ -1,5 +1,6 @@
 import argparse
 import json
+import shutil
 from pathlib import Path
 import subprocess
 import sys
@@ -26,9 +27,46 @@ class WorkspaceTests(unittest.TestCase):
             for directory in generator.EMPTY_DIRS:
                 self.assertTrue((project / directory).is_dir())
                 self.assertEqual(list((project / directory).iterdir()), [])
-            self.assertEqual((project / 'AI-Workspace/AGENTS.md').read_bytes(),
-                             (generator.TEMPLATE_DIR / 'AI-Workspace/AGENTS.md').read_bytes())
+            for relative_path in generator.DEFAULT_FILES:
+                self.assertEqual(
+                    (project / (relative_path if relative_path.endswith('.md')
+                                else 'Client WebApp.code-workspace')).read_bytes(),
+                    (generator.TEMPLATE_DIR / relative_path).read_bytes())
             self.assertFalse((project / 'workspace.code-workspace').exists())
+
+    def test_standalone_script_creates_all_records(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            script = Path(temporary) / 'create_workspace.py'
+            shutil.copyfile(generator.__file__, script)
+            result = subprocess.run([
+                sys.executable, str(script), '--ProjectName', 'Standalone',
+                '--ParentDir', temporary,
+            ], cwd=temporary, text=True, capture_output=True)
+            self.assertEqual(result.returncode, 0, result.stderr)
+            project = Path(temporary) / 'Standalone'
+            for relative_path, content in generator.DEFAULT_FILES.items():
+                target = project / (relative_path if relative_path.endswith('.md')
+                                    else 'Standalone.code-workspace')
+                self.assertEqual(target.read_text(encoding='utf-8'), content)
+            for directory in generator.EMPTY_DIRS:
+                self.assertTrue((project / directory).is_dir())
+
+    def test_partial_template_preserves_custom_content_and_fills_missing_files(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            template = Path(temporary) / 'template'
+            workspace = template / 'AI-Workspace'
+            workspace.mkdir(parents=True)
+            (workspace / '00 Scope.md').write_text('# Custom scope\n')
+            with patch.object(generator, 'TEMPLATE_DIR', template):
+                project = generator.create_workspace('Client', temporary)
+            self.assertEqual((project / 'AI-Workspace/00 Scope.md').read_text(),
+                             '# Custom scope\n')
+            for relative_path, content in generator.DEFAULT_FILES.items():
+                if relative_path in ('AI-Workspace/00 Scope.md', 'workspace.code-workspace'):
+                    continue
+                self.assertEqual((project / relative_path).read_text(encoding='utf-8'), content)
+            self.assertEqual(json.loads((project / 'Client.code-workspace').read_text())
+                             ['folders'], [{'path': '.'}])
 
     def test_existing_destination_untouched(self):
         with tempfile.TemporaryDirectory() as temporary:
